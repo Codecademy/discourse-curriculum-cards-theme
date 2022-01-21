@@ -5,3 +5,4 @@ Discourse's dev documentation is unfortunately limited to blog posts and their o
 - [a tour of how the widget virtual DOM code in discourse works](https://meta.discourse.org/t/a-tour-of-how-the-widget-virtual-dom-code-in-discourse-works/40347)
 - [github search for discourse's available plugin outlets](https://github.com/discourse/discourse/search?q=plugin-outlet&unscoped_q=plugin-outlet)
 - [splitting up theme javascript into multiple files](https://meta.discourse.org/t/splitting-up-theme-javascript-into-multiple-files/119369)
+- [how to add settings to your discourse theme](https://meta.discourse.org/t/how-to-add-settings-to-your-discourse-theme/82557)
