@@ -1,6 +1,6 @@
 <script type="text/discourse-plugin" version="0.8">
   const { h } = require('virtual-dom');
-  const {ajax} = require('discourse/lib/ajax');
+  const { ajax } = require('discourse/lib/ajax');
   const { getOwner } = require('discourse-common/lib/get-owner');
   
   const mockData = [
@@ -76,7 +76,6 @@
 
       this.appEvents.on("page:changed", () => {
         fetchCourseData(slug).then((res) => {
-          console.log(slug, res);
           this.state.data = res;
           this.scheduleRerender();
         });
