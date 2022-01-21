@@ -1,4 +1,5 @@
 {
   "name": "Codecademy Related Content",
-  "about_url": "https://codecademy.com/catalog"
+  "about_url": "https://github.com/Codecademy/discourse-curriculum-cards-theme",
+  "component": true
 }
