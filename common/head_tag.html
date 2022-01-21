@@ -1,0 +1,74 @@
+<script type="text/discourse-plugin" version="0.8">
+  const { h } = require('virtual-dom');
+  const {ajax} = require('discourse/lib/ajax');
+  const { getOwner } = require('discourse-common/lib/get-owner');
+  
+  const data = [
+    {
+      title: 'Test title',
+      difficulty: 0,
+      type: 'course',
+      isPro: false,
+      lessonCount: 6,
+      path: 'https://codecademy.com',
+    }, {
+      title: 'Other test title',
+      difficulty: 1,
+      type: 'path',
+      isPro: true,
+      lessonCount: 420,
+      path: 'https://codecademy.com',
+    }
+  ];
+  
+  const fetchCourseData = (slug) => {
+    return ajax('https://contentv4.staging-eks.codecademy.com/graphql', {
+      type: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: {"query":"query coursesForCategory($slug: String!) {\n\tcategory(slug: $slug) {\n\t\ttracks(onlyStandalone: true, includeUnpublished: false) {\n\t\t\tdifficulty,\n\t\t\tproExclusive,\n\t\t\ttitle,\n\t\t\tcontentItemCount\n\t\t}\n\t}\n}","variables":{"slug":"python"},"operationName":"coursesForCategory"}
+    }).then((res) => {
+      console.log(res);
+    }).catch((err) => console.log('error', err));
+  };
+  
+  const renderCard = (cardData) => h('a.codecademy-card', { href: cardData.path, target: '_blank' }, [
+    h('div.codecademy-card__type', [
+      cardData.isPro ? h('span.codecademy-card__pro-badge', 'pro') : '',
+      cardData.type,
+    ]),
+    h('h4.codecademy-card__title', cardData.title),
+    h('div.codecademy-card__difficulty', [
+      cardData.difficulty ? '●● Intermediate, ' : '●○ Beginner friendly, ',
+      h('b', cardData.lessonCount),
+      'lessons',
+    ]),
+  ]);
+  
+  api.createWidget("codecademy-related-content", {
+    tagName: "div.codecademy-mount-point",
+
+    html() {
+      const container = Discourse.__container__;
+      const controller = container.lookup('controller:topic');
+      const categoryId = controller.get('model.category_id');
+      
+      const slug = controller.get(`model.site.categoriesById.${categoryId}.name`);
+
+      this.appEvents.on("page:changed", () => {
+        this.scheduleRerender();
+      });
+      
+      fetchCourseData();
+
+      return h('div', [
+        h('h3', `Learn ${slug || 'More'} on Codecademy`),
+        h('div.codecademy-cards', data.map((cardData) => renderCard(cardData))),
+      ]);
+    }
+  });
+</script>
+
+<!-- bottom of each topic page -->
+<script type="text/x-handlebars" data-template-name="/connectors/below-suggested-topics/codecademy-related-content">
+  {{mount-widget widget="codecademy-related-content"}}
+</script>
