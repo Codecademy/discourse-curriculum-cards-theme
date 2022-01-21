@@ -3,49 +3,69 @@
   const {ajax} = require('discourse/lib/ajax');
   const { getOwner } = require('discourse-common/lib/get-owner');
   
-  const data = [
+  const mockData = [
     {
       title: 'Test title',
+      proExclusive: false,
       difficulty: 0,
+      contentItemCount: 6,
       type: 'course',
-      isPro: false,
-      lessonCount: 6,
       path: 'https://codecademy.com',
     }, {
       title: 'Other test title',
+      proExclusive: true,
       difficulty: 1,
+      contentItemCount: 420,
       type: 'path',
-      isPro: true,
-      lessonCount: 420,
       path: 'https://codecademy.com',
     }
   ];
+
+  const query = `
+    query coursesForCategory($slug: String!) {
+      category(slug: $slug) {
+        tracks {
+          title
+          proExclusive
+          difficulty
+          contentItemCount
+        }
+      }
+    }
+  `;
   
   const fetchCourseData = (slug) => {
     return ajax('https://contentv4.staging-eks.codecademy.com/graphql', {
       type: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      data: {"query":"query coursesForCategory($slug: String!) {\n\tcategory(slug: $slug) {\n\t\ttracks(onlyStandalone: true, includeUnpublished: false) {\n\t\t\tdifficulty,\n\t\t\tproExclusive,\n\t\t\ttitle,\n\t\t\tcontentItemCount\n\t\t}\n\t}\n}","variables":{"slug":"python"},"operationName":"coursesForCategory"}
-    }).then((res) => {
-      console.log(res);
-    }).catch((err) => console.log('error', err));
+      data: {
+        query,
+        variables: { slug },
+        operationName: 'coursesForCategory',
+      },
+    });
   };
   
-  const renderCard = (cardData) => h('a.codecademy-card', { href: cardData.path, target: '_blank' }, [
-    h('div.codecademy-card__type', [
-      cardData.isPro ? h('span.codecademy-card__pro-badge', 'pro') : '',
-      cardData.type,
-    ]),
-    h('h4.codecademy-card__title', cardData.title),
-    h('div.codecademy-card__difficulty', [
-      cardData.difficulty ? '●● Intermediate, ' : '●○ Beginner friendly, ',
-      h('b', cardData.lessonCount),
-      'lessons',
-    ]),
-  ]);
+  const renderCard = (cardData) =>
+    h('a.codecademy-card', { href: cardData.path, target: '_blank' }, [
+      h('div.codecademy-card__type', [
+        cardData.proExclusive ? h('span.codecademy-card__pro-badge', 'pro') : '',
+        cardData.type,
+      ]),
+      h('h4.codecademy-card__title', cardData.title),
+      h('div.codecademy-card__difficulty', [
+        cardData.difficulty ? '●● Intermediate, ' : '●○ Beginner friendly, ',
+        h('b', cardData.contentItemCount),
+        'lessons',
+      ]),
+    ]);
   
   api.createWidget("codecademy-related-content", {
     tagName: "div.codecademy-mount-point",
+
+    defaultState() {
+      return { data: mockData };
+    },
 
     html() {
       const container = Discourse.__container__;
@@ -55,14 +75,16 @@
       const slug = controller.get(`model.site.categoriesById.${categoryId}.name`);
 
       this.appEvents.on("page:changed", () => {
-        this.scheduleRerender();
+        fetchCourseData(slug).then((res) => {
+          console.log(slug, res);
+          this.state.data = res;
+          this.scheduleRerender();
+        });
       });
       
-      fetchCourseData();
-
       return h('div', [
         h('h3', `Learn ${slug || 'More'} on Codecademy`),
-        h('div.codecademy-cards', data.map((cardData) => renderCard(cardData))),
+        h('div.codecademy-cards', this.state.data.map((cardData) => renderCard(cardData))),
       ]);
     }
   });
