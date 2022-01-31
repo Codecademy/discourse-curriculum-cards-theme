@@ -5,57 +5,62 @@
   
   const mockData = [
     {
-      title: 'Test title',
-      proExclusive: false,
+      lessonCount: 6,
       difficulty: 0,
-      contentItemCount: 6,
-      type: 'course',
-      path: 'https://codecademy.com',
+      pro: false,
+      title: 'Test title',
+      url: 'https://codecademy.com',
     }, {
-      title: 'Other test title',
-      proExclusive: true,
+      lessonCount: 420,
       difficulty: 1,
-      contentItemCount: 420,
-      type: 'path',
-      path: 'https://codecademy.com',
+      pro: true,
+      title: 'Other test title',
+      url: 'https://codecademy.com',
     }
   ];
 
   const query = `
     query coursesForCategory($slug: String!) {
-      category(slug: $slug) {
-        tracks {
-          title
-          proExclusive
-          difficulty
-          contentItemCount
+      catalog {
+        category(slug: $slug) {
+          courses {
+            difficulty,
+            lessonCount,
+            pro,
+            title,
+            url
+          }
         }
       }
     }
   `;
   
   const fetchCourseData = (slug) => {
-    return ajax('https://contentv4.staging-eks.codecademy.com/graphql', {
+    return ajax('https://api.codecademy.com/graphql', {
       type: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      data: {
+      headers: {
+        'Content-Type': 'application/json',
+        NEXT_PUBLIC_CF_ACCESS_CLIENT_ID: 'ad16bb2b778ae121cd412e5e590e180a.access',
+        NEXT_PUBLIC_CF_ACCESS_CLIENT_SECRET: 'ab97fb0c22b3bfc02fa58d7cd6604e4f248e49d24ab1370da6c38afc32b0caa1',
+      },
+      data: JSON.stringify({
         query,
         variables: { slug },
         operationName: 'coursesForCategory',
-      },
+      }),
     });
   };
   
   const renderCard = (cardData) =>
-    h('a.codecademy-card', { href: cardData.path, target: '_blank' }, [
+    h('a.codecademy-card', { href: cardData.url, target: '_blank' }, [
       h('div.codecademy-card__type', [
-        cardData.proExclusive ? h('span.codecademy-card__pro-badge', 'pro') : '',
-        cardData.type,
+        cardData.pro ? h('span.codecademy-card__pro-badge', 'pro') : '',
+        'Course',
       ]),
       h('h4.codecademy-card__title', cardData.title),
       h('div.codecademy-card__difficulty', [
-        cardData.difficulty ? '●● Intermediate, ' : '●○ Beginner friendly, ',
-        h('b', cardData.contentItemCount),
+        cardData.difficulty === 'Beginner' ? '●○ Beginner friendly, ' : '●● Intermediate, ',
+        h('b', cardData.lessonCount),
         'lessons',
       ]),
     ]);
