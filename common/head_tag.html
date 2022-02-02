@@ -87,8 +87,8 @@
         fetchCourseData(slug)
           .then((res) => res.json())
           .then((json) => {
-            console.log(json);
-            this.state.data = json;
+            this.state.data = json?.data?.catalog?.category?.courses?.slice(0, 2);
+            console.log(json, this.state.data);
             this.scheduleRerender();
           });
       });
