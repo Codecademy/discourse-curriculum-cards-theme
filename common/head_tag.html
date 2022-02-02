@@ -83,8 +83,8 @@
 
       this.appEvents.on("page:changed", () => {
         fetchCourseData(slug).then((res) => {
-          console.log(res);
-          this.state.data = res;
+          console.log(res.body);
+          this.state.data = res.body;
           this.scheduleRerender();
         });
       });
