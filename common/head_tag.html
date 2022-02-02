@@ -82,11 +82,13 @@
       const slug = controller.get(`model.site.categoriesById.${categoryId}.name`);
 
       this.appEvents.on("page:changed", () => {
-        fetchCourseData(slug).then((res) => {
-          console.log(res.body);
-          this.state.data = res.body;
-          this.scheduleRerender();
-        });
+        fetchCourseData(slug)
+          .then((res) => res.json())
+          .then((json) => {
+            console.log(json);
+            this.state.data = json;
+            this.scheduleRerender();
+          });
       });
       
       return h('div', [
