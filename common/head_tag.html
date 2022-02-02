@@ -2,6 +2,15 @@
   const { h } = require('virtual-dom');
   const { getOwner } = require('discourse-common/lib/get-owner');
 
+  const categoryMap = settings
+    .forum_category_to_catalog_category_mappings
+    .split(',')
+    .reduce((acc, entry) => {
+      const [key, val] = entry.split(':');
+      acc[key] = val;
+      return acc;
+    }, {});
+
   const query = `
     query coursesForCategory($slug: String!) {
       catalog {
@@ -20,6 +29,7 @@
   
   const fetchCourseData = (slug) => {
     const normalizedSlug = slug.toLowerCase();
+    const mappedSlug = categoryMap[normalizedSlug] ?? normalizedSlug;
 
     return fetch('https://www.codecademy.com/graphql', {
       method: 'POST',
@@ -33,7 +43,7 @@
       },
       body: JSON.stringify({
         query,
-        variables: { slug: normalizedSlug },
+        variables: { slug: mappedSlug },
         operationName: 'coursesForCategory',
       }),
     });
