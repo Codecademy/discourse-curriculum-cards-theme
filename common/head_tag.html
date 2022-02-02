@@ -2,12 +2,14 @@
   const { h } = require('virtual-dom');
   const { getOwner } = require('discourse-common/lib/get-owner');
 
+  // build a map of forum categories to catalog categories using string from theme settings
+  // string format is forum-category:catalog-category,other-category:other-catalog-category
   const categoryMap = settings
     .forum_category_to_catalog_category_mappings
     .split(',')
     .reduce((acc, entry) => {
       const [key, val] = entry.split(':');
-      acc[key] = val;
+      acc[key.toLowerCase()] = val.toLowerCase();
       return acc;
     }, {});
 
