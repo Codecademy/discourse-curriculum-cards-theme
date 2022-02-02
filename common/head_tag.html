@@ -73,6 +73,7 @@
           .then((res) => res.json())
           .then((json) => {
             this.state.data = json?.data?.catalog?.category?.courses?.slice(0, 2);
+            console.log(this.state);
             this.scheduleRerender();
           });
       });
