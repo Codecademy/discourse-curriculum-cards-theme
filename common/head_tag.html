@@ -1,6 +1,5 @@
 <script type="text/discourse-plugin" version="0.8">
   const { h } = require('virtual-dom');
-  const { ajax } = require('discourse/lib/ajax');
   const { getOwner } = require('discourse-common/lib/get-owner');
   
   const mockData = [
@@ -36,14 +35,17 @@
   `;
   
   const fetchCourseData = (slug) => {
-    return ajax('https://api.codecademy.com/graphql', {
-      type: 'POST',
+    return fetch('https://www.codecademy.com/graphql', {
+      method: 'POST',
+      mode: 'cors',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
-        NEXT_PUBLIC_CF_ACCESS_CLIENT_ID: 'ad16bb2b778ae121cd412e5e590e180a.access',
-        NEXT_PUBLIC_CF_ACCESS_CLIENT_SECRET: 'ab97fb0c22b3bfc02fa58d7cd6604e4f248e49d24ab1370da6c38afc32b0caa1',
+        'Access-Control-Allow-Origin': '*',
+        'CF-Access-Client-Id': 'ad16bb2b778ae121cd412e5e590e180a.access',
+        'CF-Access-Client-Secret': 'ab97fb0c22b3bfc02fa58d7cd6604e4f248e49d24ab1370da6c38afc32b0caa1',
       },
-      data: JSON.stringify({
+      body: JSON.stringify({
         query,
         variables: { slug },
         operationName: 'coursesForCategory',
