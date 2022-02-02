@@ -1,3 +1,4 @@
 forum_category_to_catalog_category_mappings:
   type: string
-  description: "maps category slugs in the forum to category slugs in the course catalog\n\nex: css:html-css,angular-js:javascript"
+  default: '',
+  description: 'maps category slugs in the forum to category slugs in the course catalog\n\nex: css:html-css,angular-js:javascript'
