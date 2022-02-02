@@ -64,10 +64,11 @@
       const container = Discourse.__container__;
       const controller = container.lookup('controller:topic');
       const categoryId = controller.get('model.category_id');
+      let slug;
       
-      const slug = controller.get(`model.site.categoriesById.${categoryId}.name`);
-
       this.appEvents.on("page:changed", () => {
+        slug = controller.get(`model.site.categoriesById.${categoryId}.name`);
+
         fetchCourseData(slug)
           .then((res) => res.json())
           .then((json) => {
