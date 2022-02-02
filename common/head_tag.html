@@ -53,20 +53,20 @@
       ]),
     ]);
   
-  api.createWidget("codecademy-related-content", {
-    tagName: "div.codecademy-mount-point",
+  api.createWidget('codecademy-related-content', {
+    tagName: 'div.codecademy-mount-point',
 
     defaultState() {
       return { data: [] };
     },
 
-    html() {
+    html(_, state) {
       const container = Discourse.__container__;
       const controller = container.lookup('controller:topic');
       const categoryId = controller.get('model.category_id');
       let slug;
       
-      this.appEvents.on("page:changed", () => {
+      this.appEvents.on('page:changed', () => {
         slug = controller.get(`model.site.categoriesById.${categoryId}.name`);
 
         fetchCourseData(slug)
@@ -77,12 +77,12 @@
           });
       });
 
-      console.log(this.state);
+      console.log(state);
       
-      return this.state.data.length ? 
+      return state.data.length ? 
         h('div', [
           h('h3', `Learn ${slug || 'More'} on Codecademy`),
-          h('div.codecademy-cards', this.state.data.map((cardData) => renderCard(cardData))),
+          h('div.codecademy-cards', state.data.map((cardData) => renderCard(cardData))),
         ]) : null;
     }
   });
