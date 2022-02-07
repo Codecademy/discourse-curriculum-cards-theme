@@ -66,10 +66,7 @@
     buildKey: () => 'codecademy-related-content',
 
     defaultState() {
-      return {
-        data: [],
-        slug: '',
-      };
+      return { data: [] };
     },
 
     html(_, state) {
@@ -78,7 +75,7 @@
       const categoryId = controller.get('model.category_id');
       
       this.appEvents.on('page:changed', () => {
-        this.state.slug = controller.get(`model.site.categoriesById.${categoryId}.name`);
+        const slug = controller.get(`model.site.categoriesById.${categoryId}.slug`);
 
         fetchCourseData(state.slug)
           .then((res) => res.json())
@@ -90,7 +87,7 @@
 
       return state.data.length ? 
         h('div', [
-          h('h3', `Learn ${state.slug || 'More'} on Codecademy`),
+          h('h3', 'Learn more on Codecademy'),
           h('div.codecademy-cards', state.data.map((cardData) => renderCard(cardData))),
         ]) : null;
     }
