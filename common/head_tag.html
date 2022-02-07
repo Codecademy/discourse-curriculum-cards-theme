@@ -20,7 +20,7 @@
     }
   `;
   
-  const fetchCourseData = (slug) => {
+  const fetchCourseData = (slug = 'web-development') => {
     const normalizedSlug = slug
       .toLowerCase()
       .replace(/^faq-/, '')
@@ -83,7 +83,7 @@
         fetchCourseData(state.slug)
           .then((res) => res.json())
           .then((json) => {
-            this.state.data = json?.data?.catalog?.category?.courses?.slice(0, 2);
+            this.state.data = json?.data?.catalog?.category?.courses?.slice(0, 2) ?? [];
             this.scheduleRerender();
           });
       });
