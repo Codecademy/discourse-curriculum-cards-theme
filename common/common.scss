@@ -51,3 +51,13 @@
 a.codecademy-card {
   color: var(--cc-navy);
 }
+
+@media only screen and (max-width: 767px) {
+  .codecademy-cards {
+    flex-direction: column;
+  }
+
+  .codecademy-card:not(:last-child) {
+    margin: 0 0 20px;
+  }
+}
