@@ -77,6 +77,8 @@
       this.appEvents.on('page:changed', () => {
         const slug = controller.get(`model.site.categoriesById.${categoryId}.slug`);
 
+        console.log(slug);
+
         fetchCourseData(state.slug)
           .then((res) => res.json())
           .then((json) => {
