@@ -21,7 +21,11 @@
   `;
   
   const fetchCourseData = (slug) => {
-    const normalizedSlug = slug.toLowerCase();
+    const normalizedSlug = slug
+      .toLowerCase()
+      .replace(/^faq-/, '')
+      .replace(/-faq$/, '');
+
     const mappedSlug = categoryMap[normalizedSlug] ?? normalizedSlug;
 
     return fetch('https://www.codecademy.com/graphql', {
