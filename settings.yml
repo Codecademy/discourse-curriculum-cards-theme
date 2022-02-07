@@ -1,4 +1,4 @@
 forum_category_to_catalog_category_mappings:
   type: string
   default: ''
-  description: 'maps category slugs in the forum to category slugs in the course catalog; case-insensitive (ex: css:html-css,angular-js:javascript)'
+  description: 'JSON string mapping category slugs in the forum to category slugs in the course catalog (case-sensitive)'
