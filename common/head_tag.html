@@ -73,17 +73,18 @@
       const container = Discourse.__container__;
       const controller = container.lookup('controller:topic');
       const categoryId = controller.get('model.category_id');
-      
-      this.appEvents.on('page:changed', () => {
-        const slug = controller.get(`model.site.categoriesById.${categoryId}.slug`);
+      const slug = controller.get(`model.site.categoriesById.${categoryId}.slug`);
+      let isLoaded = false;
 
+      if (!isLoaded) {
         fetchCourseData(slug)
           .then((res) => res.json())
           .then((json) => {
             this.state.data = json?.data?.catalog?.category?.courses?.slice(0, 2) ?? [];
             this.scheduleRerender();
+            isLoaded = true;
           });
-      });
+      }
 
       return state.data.length ? 
         h('div', [
