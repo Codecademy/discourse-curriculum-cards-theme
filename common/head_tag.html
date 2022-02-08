@@ -66,7 +66,10 @@
     buildKey: () => 'codecademy-related-content',
 
     defaultState() {
-      return { data: [] };
+      return {
+        data: [],
+        isLoaded: false,
+      };
     },
 
     html(_, state) {
@@ -74,15 +77,14 @@
       const controller = container.lookup('controller:topic');
       const categoryId = controller.get('model.category_id');
       const slug = controller.get(`model.site.categoriesById.${categoryId}.slug`);
-      let isLoaded = false;
 
-      if (!isLoaded) {
+      if (!state.isLoaded) {
         fetchCourseData(slug)
           .then((res) => res.json())
           .then((json) => {
             this.state.data = json?.data?.catalog?.category?.courses?.slice(0, 2) ?? [];
             this.scheduleRerender();
-            isLoaded = true;
+            this.state.isLoaded = true;
           });
       }
 
