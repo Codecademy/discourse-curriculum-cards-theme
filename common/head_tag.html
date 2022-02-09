@@ -34,9 +34,6 @@
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'CF-Access-Client-Id': 'ad16bb2b778ae121cd412e5e590e180a.access',
-        'CF-Access-Client-Secret': 'ab97fb0c22b3bfc02fa58d7cd6604e4f248e49d24ab1370da6c38afc32b0caa1',
       },
       body: JSON.stringify({
         query,
@@ -83,8 +80,8 @@
           .then((res) => res.json())
           .then((json) => {
             this.state.data = json?.data?.catalog?.category?.courses?.slice(0, 2) ?? [];
-            this.scheduleRerender();
             this.state.isLoaded = true;
+            this.scheduleRerender();
           });
       }
 
