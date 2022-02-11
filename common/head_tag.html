@@ -87,7 +87,7 @@
 
       return state.data.length ? 
         h('div', [
-          h('h3', 'Learn more on Codecademy'),
+          h('h3.codecademy-section-title', 'Learn more on Codecademy'),
           h('div.codecademy-cards', state.data.map((cardData) => renderCard(cardData))),
         ]) : null;
     }
