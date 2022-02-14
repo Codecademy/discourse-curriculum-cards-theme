@@ -62,6 +62,10 @@ $cc-white: #FFF;
     font-size: 12px;
     margin-right: 5px;
   }
+
+  &__lesson-count {
+    margin: 0 3px;
+  }
 }
 
 // above block isn't specific enough but plays more nicely with BEM styles
