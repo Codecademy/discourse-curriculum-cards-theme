@@ -1,3 +1,8 @@
+$cc-breakpoint-sm: 768px;
+$cc-breakpoint-md: 1024px;
+$cc-navy: #10162F;
+$cc-white: #FFF;
+
 .codecademy-mount-point {
   margin: 64px 0;
   font-family: "Apercu",-apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
@@ -9,27 +14,25 @@
 
 .codecademy-cards {
   display: flex;
+  flex-direction: column;
 }
 
 .codecademy-card {
-  --cc-navy: #10162F;
-  --cc-white: #FFF;
-
   flex: 1;
   min-height: 180px;
   padding: 16px;
   border: 1px solid black;
-  background-color: var(--cc-white);
+  background-color: $cc-white;
   font-size: 0.9rem; // 1rem ~15px in discourse land
   transition: box-shadow 200ms ease, transform 200ms ease;
   
   &:not(:last-child) {
-    margin-right: 1.6rem;
+    margin: 0 0 20px;
   }
   
   &:hover {
     transform: translate(4px, -4px);
-    box-shadow: -8px 8px 0 var(--cc-navy);
+    box-shadow: -8px 8px 0 $cc-navy;
   }
 
   &__type {
@@ -39,8 +42,8 @@
   &__pro-badge {
     padding: 0 2px;
     margin-right: 8px;
-    background-color: var(--cc-navy);
-    color: var(--cc-white);
+    background-color: $cc-navy;
+    color: $cc-white;
     text-transform: uppercase;
   }
 
@@ -49,19 +52,34 @@
     font-size: 1.3rem;
     font-family: "Suisse","Apercu",-apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
   }
+  
+  &__difficulty {
+    display: flex;
+    align-items: center;
+  }
+  
+  &__dots {
+    font-size: 12px;
+    margin-right: 5px;
+  }
 }
 
 // above block isn't specific enough but plays more nicely with BEM styles
 a.codecademy-card {
-  color: var(--cc-navy);
+  color: $cc-navy;
 }
 
-@media only screen and (max-width: 767px) {
+@media only screen and (min-width: $cc-breakpoint-sm) {
   .codecademy-cards {
-    flex-direction: column;
+    flex-direction: row;
   }
-
   .codecademy-card:not(:last-child) {
-    margin: 0 0 20px;
+    margin: 0 1.6rem 0 0;
+  }
+}
+
+@media only screen and (min-width: $cc-breakpoint-md) {
+  .codecademy-card {
+    max-width: 320px;
   }
 }
