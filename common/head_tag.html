@@ -54,8 +54,8 @@
         ...(cardData.difficulty === 'Beginner'
             ? [h('span.codecademy-card__dots', '●○'), ' Beginner friendly, ']
             : [h('span.codecademy-card__dots', '●●'), ' Intermediate, ']),
-        h('b', cardData.lessonCount),
-        'lessons',
+        h('b', cardData.lessonCount?.toString()),
+        ' lessons',
       ]),
     ]);
   
