@@ -1,9 +1,10 @@
 $cc-breakpoint-sm: 768px;
 $cc-breakpoint-md: 1024px;
-$cc-navy: #10162F;
-$cc-white: #FFF;
 
 .codecademy-mount-point {
+  --codecademy-card-primary: #{color_primary};
+  --codecademy-card-secondary: #{color_secondary};
+
   margin: 64px 0;
   font-family: "Apercu",-apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
 }
@@ -22,7 +23,7 @@ $cc-white: #FFF;
   min-height: 180px;
   padding: 16px;
   border: 1px solid black;
-  background-color: $cc-white;
+  background-color: var(--codecademy-card-primary);
   font-size: 0.9rem; // 1rem ~15px in discourse land
   transition: box-shadow 200ms ease, transform 200ms ease;
   
@@ -32,7 +33,7 @@ $cc-white: #FFF;
   
   &:hover {
     transform: translate(4px, -4px);
-    box-shadow: -8px 8px 0 $cc-navy;
+    box-shadow: -8px 8px 0 var(--codecademy-card-secondary);
   }
 
   &__type {
@@ -42,8 +43,8 @@ $cc-white: #FFF;
   &__pro-badge {
     padding: 0 2px;
     margin-right: 8px;
-    background-color: $cc-navy;
-    color: $cc-white;
+    background-color: var(--codecademy-card-secondary);
+    color: var(--codecademy-card-primary);
     text-transform: uppercase;
   }
 
@@ -70,7 +71,7 @@ $cc-white: #FFF;
 
 // above block isn't specific enough but plays more nicely with BEM styles
 a.codecademy-card {
-  color: $cc-navy;
+  color: var(--codecademy-card-secondary);
 }
 
 @media only screen and (min-width: $cc-breakpoint-sm) {

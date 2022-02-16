@@ -2,3 +2,11 @@ forum_category_to_catalog_category_mappings:
   type: string
   default: ''
   description: 'JSON string mapping category slugs in the forum to category slugs in the course catalog (case-sensitive)'
+color_primary:
+  type: string
+  default: '#FFFFFF'
+  description: 'Hex or rgb color code to use for the curiculum card background'
+color_secondary:
+  type: string
+  default: '#10162F'
+  description: 'Hex or rgb color code to use for the curriculum card text and borders'
