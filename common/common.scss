@@ -2,8 +2,8 @@ $cc-breakpoint-sm: 768px;
 $cc-breakpoint-md: 1024px;
 
 .codecademy-mount-point {
-  --codecademy-card-primary: #{color_primary};
-  --codecademy-card-secondary: #{color_secondary};
+  --codecademy-card-primary: {$color_primary};
+  --codecademy-card-secondary: {$color_secondary};
 
   margin: 64px 0;
   font-family: "Apercu",-apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
