@@ -22,7 +22,7 @@ $suisse: "Suisse",$apercu;
   min-height: 180px;
   padding: 16px;
   border: 1px solid black;
-  background-color: $color-primary;
+  background-color: var(--cc-secondary);
   font-size: 0.9rem; // 1rem ~15px in discourse land
   transition: box-shadow 200ms ease, transform 200ms ease;
   
@@ -32,7 +32,7 @@ $suisse: "Suisse",$apercu;
   
   &:hover {
     transform: translate(4px, -4px);
-    box-shadow: -8px 8px 0 $color-secondary;
+    box-shadow: -8px 8px 0 var(--cc-primary);
   }
 
   &__type {
@@ -43,8 +43,8 @@ $suisse: "Suisse",$apercu;
   &__pro-badge {
     padding: 0 2px;
     margin-right: 8px;
-    background-color: $color-secondary;
-    color: $color-primary;
+    background-color: var(--cc-primary);
+    color: var(--cc-secondary);
     text-transform: uppercase;
     font-family: $apercu;
   }
@@ -71,7 +71,7 @@ $suisse: "Suisse",$apercu;
 
 // above block isn't specific enough but plays more nicely with BEM styles
 a.codecademy-card {
-  color: $color-secondary;
+  color: var(--cc-primary);
 }
 
 @media only screen and (min-width: $cc-breakpoint-sm) {
