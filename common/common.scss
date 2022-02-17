@@ -70,7 +70,7 @@ $suisse: "Suisse",$apercu;
 }
 
 // above block isn't specific enough but plays more nicely with BEM styles
-a.codecademy-card {
+a.codecademy-card, a.codecademy-card:hover {
   color: var(--cc-card-text);
 }
 
