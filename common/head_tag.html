@@ -52,10 +52,11 @@
       h('h4.codecademy-card__title', cardData.title),
       h('div.codecademy-card__difficulty', [
         ...(cardData.difficulty === 'Beginner'
-            ? [h('span.codecademy-card__dots', '●○'), ' Beginner friendly, ']
-            : [h('span.codecademy-card__dots', '●●'), ' Intermediate, ']),
-        h('b.codecademy-card__lesson-count', cardData.lessonCount?.toString()),
-        'lessons',
+            ? [h('span.codecademy-card__dots', '●○'), ' Beginner friendly']
+            : [h('span.codecademy-card__dots', '●●'), ' Intermediate']),
+        ...(cardData.lessonCount
+          ? [', ', h('b.codecademy-card__lesson-count', cardData.lessonCount?.toString()), 'lessons']
+          : [])
       ]),
     ]);
   
